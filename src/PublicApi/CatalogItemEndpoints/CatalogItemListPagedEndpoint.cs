@@ -78,6 +78,20 @@ public class CatalogItemListPagedEndpoint : IEndpoint<IResult, ListPagedCatalogI
             response.PageCount = totalItems > 0 ? 1 : 0;
         }
         _logger.LogWarning("It's over Anakin! I have the high ground!"); // End of method Logging
+
+
+        try
+        {
+            throw new InvalidCastException("Mr Potter didn't use a long enough 'O' to cast his spell");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("Cannot move further");
+            _logger.LogWarning(message: e.Message);
+            
+        }
+
+
         return Results.Ok(response);
     }
 }

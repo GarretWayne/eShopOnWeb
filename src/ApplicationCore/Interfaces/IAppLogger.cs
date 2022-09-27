@@ -10,4 +10,5 @@ public interface IAppLogger<T>
     void LogWarning(string message, params object[] args);
 
     void LogCritical(string message, params object[] args);
+    void LogError(string message, params object[] args);
 }
