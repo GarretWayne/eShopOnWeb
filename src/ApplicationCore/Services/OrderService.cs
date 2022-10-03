@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Ardalis.GuardClauses;
 using Microsoft.eShopWeb.ApplicationCore.Entities;
@@ -11,7 +12,7 @@ namespace Microsoft.eShopWeb.ApplicationCore.Services;
 
 public class OrderService : IOrderService
 {
-    private readonly IRepository<Order> _orderRepository;
+    private protected readonly IRepository<Order> _orderRepository;
     private readonly IUriComposer _uriComposer;
     private readonly IRepository<Basket> _basketRepository;
     private readonly IRepository<CatalogItem> _itemRepository;
@@ -27,27 +28,54 @@ public class OrderService : IOrderService
         _itemRepository = itemRepository;
     }
 
-    public async Task CreateOrderAsync(int basketId, Address shippingAddress)
+    public virtual async Task CreateOrderAsync(int basketId, Address shippingAddress)
     {
-        var basketSpec = new BasketWithItemsSpecification(basketId);
-        var basket = await _basketRepository.GetBySpecAsync(basketSpec);
+        //Order Parts
+        var basket = await RetrieveBasketFromRepositoryById(basketId);
 
-        Guard.Against.NullBasket(basketId, basket);
-        Guard.Against.EmptyBasketOnCheckout(basket.Items);
+        var catalogItems = await RetrieveCatalogItemsByBasket(basket);
 
-        var catalogItemsSpecification = new CatalogItemsSpecification(basket.Items.Select(item => item.CatalogItemId).ToArray());
-        var catalogItems = await _itemRepository.ListAsync(catalogItemsSpecification);
+        var items =  RetrieveItems(basket, catalogItems);
 
-        var items = basket.Items.Select(basketItem =>
+        //Order Assembly
+        var order = await AssembleOrder(basket, shippingAddress, items);
+
+
+        await _orderRepository.AddAsync(order);
+    }
+
+    private protected async Task<Order> AssembleOrder(Basket basket, Address shippingAddress, List<OrderItem> items)
+    {
+        var result = new Order(basket.BuyerId, shippingAddress, items);
+        return result;
+    }
+
+    private protected List<OrderItem> RetrieveItems(Basket basket, List<CatalogItem> catalogItems)
+    {
+        var resultItems = basket.Items.Select(basketItem =>
         {
             var catalogItem = catalogItems.First(c => c.Id == basketItem.CatalogItemId);
             var itemOrdered = new CatalogItemOrdered(catalogItem.Id, catalogItem.Name, _uriComposer.ComposePicUri(catalogItem.PictureUri));
             var orderItem = new OrderItem(itemOrdered, basketItem.UnitPrice, basketItem.Quantity);
             return orderItem;
         }).ToList();
+        return resultItems;
+    }
 
-        var order = new Order(basket.BuyerId, shippingAddress, items);
+    private protected async Task<Basket> RetrieveBasketFromRepositoryById(int basketId)
+    {
+        var basketSpec = new BasketWithItemsSpecification(basketId);
+        var resultBasket = await _basketRepository.GetBySpecAsync(basketSpec);
 
-        await _orderRepository.AddAsync(order);
+        Guard.Against.NullBasket(basketId, resultBasket);
+        Guard.Against.EmptyBasketOnCheckout(resultBasket.Items);
+
+        return resultBasket;
+    }
+
+    private protected async Task<List<CatalogItem>> RetrieveCatalogItemsByBasket(Basket basket)
+    {
+        var catalogItemsSpecification = new CatalogItemsSpecification(basket.Items.Select(item => item.CatalogItemId).ToArray());
+        return await _itemRepository.ListAsync(catalogItemsSpecification);
     }
 }
