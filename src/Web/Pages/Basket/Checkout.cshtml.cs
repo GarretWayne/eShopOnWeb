@@ -40,6 +40,7 @@ public class CheckoutModel : PageModel
         await SetBasketModelAsync();
     }
 
+    //This might be where we actually CHECKOUT
     public async Task<IActionResult> OnPost(IEnumerable<BasketItemViewModel> items)
     {
         try
