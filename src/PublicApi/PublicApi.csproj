@@ -6,6 +6,7 @@
     <UserSecretsId>5b662463-1efd-4bae-bde4-befe0be3e8ff</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
+    <ApplicationInsightsResourceId>/subscriptions/ebe4f692-26e3-4b82-a96c-7513758a5296/resourceGroups/BlobTask-EU/providers/microsoft.insights/components/eShop-AppInsights</ApplicationInsightsResourceId>
   </PropertyGroup>
 
   <ItemGroup>
