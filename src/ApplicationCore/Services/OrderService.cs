@@ -32,10 +32,8 @@ public class OrderService : IOrderService
     {
         //Order Parts
         var basket = await RetrieveBasketFromRepositoryById(basketId);
-
         var catalogItems = await RetrieveCatalogItemsByBasket(basket);
-
-        var items =  RetrieveItems(basket, catalogItems);
+        var items = RetrieveItems(basket, catalogItems);
 
         //Order Assembly
         var order = await AssembleOrder(basket, shippingAddress, items);
