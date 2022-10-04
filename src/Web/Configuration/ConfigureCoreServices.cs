@@ -18,7 +18,10 @@ public static class ConfigureCoreServices
         services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
 
         services.AddScoped<IBasketService, BasketService>();
+
+        //TODO When OrderServiceWithReservation is complete, inject it here
         services.AddScoped<IOrderService, OrderService>();
+
         services.AddScoped<IBasketQueryService, BasketQueryService>();
         services.AddSingleton<IUriComposer>(new UriComposer(configuration.Get<CatalogSettings>()));
         services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
