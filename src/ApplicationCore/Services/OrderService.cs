@@ -12,7 +12,7 @@ namespace Microsoft.eShopWeb.ApplicationCore.Services;
 
 public class OrderService : IOrderService
 {
-    private protected readonly IRepository<Order> _orderRepository;
+    protected readonly IRepository<Order> _orderRepository;
     private readonly IUriComposer _uriComposer;
     private readonly IRepository<Basket> _basketRepository;
     private readonly IRepository<CatalogItem> _itemRepository;
@@ -30,25 +30,29 @@ public class OrderService : IOrderService
 
     public virtual async Task CreateOrderAsync(int basketId, Address shippingAddress)
     {
-        //Order Parts
+        //Order Assembly
+        var order = await AssembleOrder(basketId, shippingAddress);
+
+        await AddOrderToRepo(order);
+    }
+
+    //Helper Methods For Base Functionality
+    protected async Task AddOrderToRepo(Order order)
+    {
+        await _orderRepository.AddAsync(order);
+    }
+
+    protected async Task<Order> AssembleOrder(int basketId, Address shippingAddress)
+    {
         var basket = await RetrieveBasketFromRepositoryById(basketId);
         var catalogItems = await RetrieveCatalogItemsByBasket(basket);
         var items = RetrieveItems(basket, catalogItems);
 
-        //Order Assembly
-        var order = await AssembleOrder(basket, shippingAddress, items);
-
-
-        await _orderRepository.AddAsync(order);
-    }
-
-    private protected async Task<Order> AssembleOrder(Basket basket, Address shippingAddress, List<OrderItem> items)
-    {
         var result = new Order(basket.BuyerId, shippingAddress, items);
         return result;
     }
 
-    private protected List<OrderItem> RetrieveItems(Basket basket, List<CatalogItem> catalogItems)
+    protected List<OrderItem> RetrieveItems(Basket basket, List<CatalogItem> catalogItems)
     {
         var resultItems = basket.Items.Select(basketItem =>
         {
@@ -60,7 +64,7 @@ public class OrderService : IOrderService
         return resultItems;
     }
 
-    private protected async Task<Basket> RetrieveBasketFromRepositoryById(int basketId)
+    protected async Task<Basket> RetrieveBasketFromRepositoryById(int basketId)
     {
         var basketSpec = new BasketWithItemsSpecification(basketId);
         var resultBasket = await _basketRepository.GetBySpecAsync(basketSpec);
@@ -71,7 +75,7 @@ public class OrderService : IOrderService
         return resultBasket;
     }
 
-    private protected async Task<List<CatalogItem>> RetrieveCatalogItemsByBasket(Basket basket)
+    protected async Task<List<CatalogItem>> RetrieveCatalogItemsByBasket(Basket basket)
     {
         var catalogItemsSpecification = new CatalogItemsSpecification(basket.Items.Select(item => item.CatalogItemId).ToArray());
         return await _itemRepository.ListAsync(catalogItemsSpecification);

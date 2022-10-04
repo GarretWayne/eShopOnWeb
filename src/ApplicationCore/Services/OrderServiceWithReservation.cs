@@ -8,7 +8,7 @@ namespace Microsoft.eShopWeb.ApplicationCore.Services;
 
 internal class OrderServiceWithReservation : OrderService
 {
-    IOrderReservationService _reservationService;
+    private readonly IOrderReservationService _reservationService;
 
     public OrderServiceWithReservation(IRepository<Basket> basketRepository,
         IRepository<CatalogItem> itemRepository,
@@ -20,20 +20,17 @@ internal class OrderServiceWithReservation : OrderService
         this._reservationService = reservationService;
     }
 
-
     public override async Task CreateOrderAsync(int basketId, Address shippingAddress)
     {
-        //Order Parts
-        var basket = await this.RetrieveBasketFromRepositoryById(basketId);
-        var catalogItems = await this.RetrieveCatalogItemsByBasket(basket);
-        var items = this.RetrieveItems(basket, catalogItems);
-
-
         //Order Assembly
-        var order = await AssembleOrder(basket, shippingAddress, items);
+        var order = await AssembleOrder(basketId, shippingAddress);
 
+        await AddOrderToRepo(order);
+        await ReserveOrderWithService(order);
+    }
 
-        await _orderRepository.AddAsync(order);
+    protected async Task ReserveOrderWithService(Order order)
+    {
         await _reservationService.ReserveItems(order);
     }
 }
