@@ -3,14 +3,6 @@ using System.Timers;
 
 namespace BlazorAdmin.Services;
 
-public enum ToastLevel
-{
-    Info,
-    Success,
-    Warning,
-    Error
-}
-
 public class ToastService : IDisposable
 {
     public event Action<string, ToastLevel> OnShow;
