@@ -45,7 +45,7 @@ public class ReservationWithCosmosDbService : IOrderReservationService
 
     public async Task SendOrderAsync(string content)
     {
-        var requestUri = _configuration.GetSection("AzureFunctions:AzFuncToCosmosDb").Key;
+        var requestUri = _configuration["OrderReserveToCosmosDbAzFunction"];
         await _orderReservationCommunicator.OnPostOrderAsync(content, requestUri);
 
     }
