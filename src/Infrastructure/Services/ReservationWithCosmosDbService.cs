@@ -39,7 +39,8 @@ public class ReservationWithCosmosDbService : IOrderReservationService
 
     private async Task<string> AssembleOrderContent(Order order)
     {
-        return await _assembler.AssembleOrderContentAsync(new OrderDtoToReserve(order));
+        var dtoToJsonify = new OrderDtoToReserve(order);
+        return await _assembler.AssembleOrderContentAsync(dtoToJsonify);
     }
 
     public async Task SendOrderAsync(string content)

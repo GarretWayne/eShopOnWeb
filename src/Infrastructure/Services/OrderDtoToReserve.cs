@@ -7,12 +7,15 @@ namespace Microsoft.eShopWeb.Infrastructure.Services;
 
 public class OrderDtoToReserve
 {
-    public string BuyerId { get; }
-    public Address ShipToAddress { get; }
-    public List<OrderItem> ListOfItems { get; }
+    public string BuyerId { get; set; }
+    public Address ShipToAddress { get; set; }
+    public List<OrderItem> ListOfItems { get; set; }
     public decimal FinalPrice { get; set; }
 
-
+    public OrderDtoToReserve()
+    {
+        
+    }
 
     public OrderDtoToReserve(Order order)
     {
