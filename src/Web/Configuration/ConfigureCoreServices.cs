@@ -19,13 +19,22 @@ public static class ConfigureCoreServices
 
         services.AddScoped<IBasketService, BasketService>();
 
-        //TODO When OrderServiceWithReservation is complete, inject it here
-        services.AddScoped<IOrderService, OrderService>();
+        //DONE When OrderServiceWithReservation is complete, inject it here
+        services.AddScoped<IOrderService, OrderServiceWithReservation>();
 
         services.AddScoped<IBasketQueryService, BasketQueryService>();
         services.AddSingleton<IUriComposer>(new UriComposer(configuration.Get<CatalogSettings>()));
         services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
+
+        //Services -> OrderReservation Helpers
+        services.AddTransient<IOrderContentAssembler, JsonToStringAssembler>();
+        services.AddTransient<IAzureOrderReservationCommunicatorService, AzureFuncToDbCommunicatorService>();
+
+        //Services
         services.AddTransient<IEmailSender, EmailSender>();
+        services.AddTransient<IOrderReservationService, ReservationWithCosmosDbService>();
+
+        
 
         return services;
     }

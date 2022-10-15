@@ -6,7 +6,7 @@ using Microsoft.eShopWeb.ApplicationCore.Interfaces;
 
 namespace Microsoft.eShopWeb.ApplicationCore.Services;
 
-internal class OrderServiceWithReservation : OrderService
+public class OrderServiceWithReservation : OrderService
 {
     private readonly IOrderReservationService _reservationService;
 
