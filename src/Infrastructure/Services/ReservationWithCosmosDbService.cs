@@ -1,24 +1,16 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http.Headers;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Xml;
-using BlazorAdmin.Services;
+﻿using System.Threading.Tasks;
 using Microsoft.eShopWeb.ApplicationCore.Entities.OrderAggregate;
 using Microsoft.eShopWeb.ApplicationCore.Interfaces;
 using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.eShopWeb.Infrastructure.Services;
+
 public class ReservationWithCosmosDbService : IOrderReservationService
 {
     private readonly IConfiguration _configuration;
     private readonly IAppLogger<ReservationWithCosmosDbService> _logger;
     private readonly IAzureOrderReservationCommunicatorService _orderReservationCommunicator;
     private readonly IOrderContentAssembler _assembler;
-
 
     public ReservationWithCosmosDbService(IConfiguration configuration, IAppLogger<ReservationWithCosmosDbService> logger, IAzureOrderReservationCommunicatorService orderReservationCommunicator, IOrderContentAssembler assembler)
     {
@@ -27,6 +19,7 @@ public class ReservationWithCosmosDbService : IOrderReservationService
         _orderReservationCommunicator = orderReservationCommunicator;
         _assembler = assembler;
     }
+
     public async Task ReserveItems(Order order)
     {
         _logger.LogInformation("START - Order reservation to be sent");
@@ -47,8 +40,5 @@ public class ReservationWithCosmosDbService : IOrderReservationService
     {
         var requestUri = _configuration["OrderReserveToCosmosDbAzFunction"];
         await _orderReservationCommunicator.OnPostOrderAsync(content, requestUri);
-
     }
-
-   
 }
