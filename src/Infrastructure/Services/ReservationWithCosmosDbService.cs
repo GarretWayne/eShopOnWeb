@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 using Microsoft.eShopWeb.ApplicationCore.Entities.OrderAggregate;
 using Microsoft.eShopWeb.ApplicationCore.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -38,7 +41,19 @@ public class ReservationWithCosmosDbService : IOrderReservationService
 
     public async Task SendOrderAsync(string content)
     {
-        var requestUri = _configuration["OrderReserveToCosmosDbAzFunction"];
+        _logger.LogInformation("Start - KeyVault");
+        string keyVaultName = "keyvaulttestazuretest";
+        var keyVaultUri = "https://" + keyVaultName + ".vault.azure.net";
+
+        var secretClient = new SecretClient(new Uri(keyVaultUri),
+            new DefaultAzureCredential());
+        var secretUriResponse = await secretClient.GetSecretAsync("ConnectionStrings--AzureFunc--OrderReserve");
+
+        _logger.LogInformation("DONE - KeyVault");
+
+
+
+        string requestUri = secretUriResponse.Value.Value;
         await _orderReservationCommunicator.OnPostOrderAsync(content, requestUri);
     }
 }
