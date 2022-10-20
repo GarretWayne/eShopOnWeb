@@ -23,6 +23,11 @@
       "type": "appInsights",
       "connectionId": "APPLICATIONINSIGHTS_CONNECTION_STRING",
       "dynamicId": null
+    },
+    "compute.function.windows1": {
+      "group": "connections",
+      "type": "compute.function.windows",
+      "connectionId": null
     }
   }
 }
