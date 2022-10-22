@@ -5,7 +5,7 @@ using Microsoft.eShopWeb.ApplicationCore.Interfaces;
 
 namespace Microsoft.eShopWeb.Infrastructure.Services;
 
-public class AzureFuncToDbCommunicatorService :IAzureOrderReservationCommunicatorService
+public class AzureFuncToDbCommunicatorService : IAzureOrderReservationCommunicatorService
 {
     private readonly IAppLogger<AzureFuncToDbCommunicatorService> _logger;
 
@@ -18,31 +18,33 @@ public class AzureFuncToDbCommunicatorService :IAzureOrderReservationCommunicato
     {
         try
         {
+            //Forming the URi
             var requestUri = new Uri(uriString);
 
-            using (var request = new HttpRequestMessage(HttpMethod.Post, requestUri))
+            //get client
+            var httpClient = new HttpClient();
+
+            //Forming the Message
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, requestUri)
             {
-                var client = new HttpClient();
-                request.Headers.Add("OrderToReserve", "");
-                request.Content = new StringContent(content);
+                Content = new StringContent(content)
+            };
+            //Adding Proper Header
+            httpRequestMessage.Headers.Add("OrderToReserve", "true");
 
-                using (var response = await client
-                           .PostAsync(request.RequestUri, request.Content))
+            //Sending the Message
+            var response = await httpClient.SendAsync(httpRequestMessage);
 
-                {
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        _logger.LogInformation("DONE - Reservation COMPLETED");
+            _logger.LogInformation(response.IsSuccessStatusCode
+                ? "DONE - Reservation COMPLETED"
+                : "FAILED - Reservation FAILED");
 
-                    }
 
-                }
-            }
         }
         catch (Exception e)
         {
-            _logger.LogCritical("BAD - Reaching the AzureFunc somewhere gone wrong",e);
+            _logger.LogCritical("BAD - Reaching the AzureFunc somewhere gone wrong", e);
 
         }
     }
