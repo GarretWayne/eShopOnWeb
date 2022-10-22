@@ -1,3 +1,7 @@
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
+using System.Web.Http;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using Microsoft.AspNetCore.Http;
@@ -8,11 +12,6 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.eShopWeb.Infrastructure.Services;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web.Http;
 
 namespace Azure.Cloud.ActuallyWorking
 {
@@ -29,8 +28,8 @@ namespace Azure.Cloud.ActuallyWorking
 
                 log.LogInformation("Checking for proper Header");
 
-                string headerExpected = "OrderToReserve";
-                if (!DoesContainProperHeader(request, headerExpected))
+                string headerNameExpected = "OrderToReserve";
+                if (!DoesContainProperHeader(request, headerNameExpected, logger: log))
                 {
                     log.LogWarning("Improper Headers detected");
                     log.LogWarning("BadRequest returned");
@@ -80,9 +79,25 @@ namespace Azure.Cloud.ActuallyWorking
             }
         }
 
-        private static bool DoesContainProperHeader(HttpRequest request, string headerExpected)
+        private static bool DoesContainProperHeader(HttpRequest request, string headerExpected, ILogger logger)
         {
-            return request.Headers.Select(x => x.Key).Contains(headerExpected);
+            try
+            {
+                logger.LogInformation("Comparing Header To Expected");
+                string result = request.Headers[headerExpected];
+                logger.LogInformation($"Still works here? ");
+
+
+                return string.IsNullOrEmpty(result) ? false : result.Contains("true");
+
+            }
+            catch (Exception e)
+            {
+                logger.LogCritical($"FAILED - Evaluation of headers FAILED Error: {e}"  );
+                return false;
+            }
+            
+
         }
     }
 }
