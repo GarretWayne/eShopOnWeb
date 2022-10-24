@@ -1,14 +1,5 @@
 {
   "dependencies": {
-    "mssql1": {
-      "type": "mssql",
-      "connectionId": "ConnectionStrings:CatalogConnection"
-    },
-    "mssql2": {
-      "type": "mssql",
-      "connectionId": "ConnectionStrings:IdentityConnection",
-      "dynamicId": null
-    },
     "secrets1": {
       "type": "secrets",
       "connectionId": "VaultUri",
@@ -22,6 +13,16 @@
     "appInsights1": {
       "type": "appInsights",
       "connectionId": "APPLICATIONINSIGHTS_CONNECTION_STRING",
+      "dynamicId": null
+    },
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:CatalogConnection",
+      "dynamicId": null
+    },
+    "mssql2": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:IdentityConnection",
       "dynamicId": null
     }
   }

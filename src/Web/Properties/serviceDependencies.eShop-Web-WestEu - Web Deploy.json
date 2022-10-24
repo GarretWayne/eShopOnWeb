@@ -13,6 +13,20 @@
       "type": "secrets.keyVault",
       "connectionId": "VaultUri",
       "dynamicId": null
+    },
+    "mssql1": {
+      "secretStore": "AzureKeyVault",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/webdbserverbackingplezi/databases/Web_db_Catalog",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:CatalogConnection",
+      "dynamicId": null
+    },
+    "mssql2": {
+      "secretStore": "AzureKeyVault",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/webdbserverbackingplezi/databases/Web_db_Identity",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:IdentityConnection",
+      "dynamicId": null
     }
   }
 }
