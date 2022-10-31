@@ -28,8 +28,8 @@ public static class ConfigureCoreServices
         services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
 
         //Services -> OrderReservation Helpers
-        services.AddTransient<IOrderContentAssembler, JsonToStringAssembler>();
-        services.AddTransient<IAzureOrderReservationCommunicatorService, AzureFuncToDbCommunicatorService>();
+        services.AddTransient<IOrderRequestContentAssembler, JsonToStringAssembler>();
+        services.AddTransient<IAzureCommunicatorService, AzureCommunicatorService>();
 
         //Services
         services.AddTransient<IEmailSender, EmailSender>();

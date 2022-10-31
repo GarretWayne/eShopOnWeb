@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace Microsoft.eShopWeb.Infrastructure.Services;
 
-public interface ISecretBroker
+public interface ISecretBrokerService
 {
     Task<String> GetSecretAsStringByNameAsync(string secretName);
 }

@@ -6,7 +6,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Microsoft.eShopWeb.Infrastructure.Utilities;
 
-public class JsonToStringAssembler : IOrderContentAssembler
+public class JsonToStringAssembler : IOrderRequestContentAssembler
 {
     private readonly IAppLogger<JsonToStringAssembler> _logger;
 

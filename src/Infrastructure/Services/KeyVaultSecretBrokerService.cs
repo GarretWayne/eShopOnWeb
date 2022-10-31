@@ -7,13 +7,13 @@ using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.eShopWeb.Infrastructure.Services;
 
-internal class KeyVaultSecretBroker : ISecretBroker
+internal class KeyVaultSecretBrokerService : ISecretBrokerService
 {
     private readonly IConfiguration _configuration;
-    private readonly IAppLogger<KeyVaultSecretBroker> _logger;
+    private readonly IAppLogger<KeyVaultSecretBrokerService> _logger;
     private readonly SecretClient _secretClient;
 
-    public KeyVaultSecretBroker(IConfiguration configuration, IAppLogger<KeyVaultSecretBroker> logger)
+    public KeyVaultSecretBrokerService(IConfiguration configuration, IAppLogger<KeyVaultSecretBrokerService> logger)
     {
         _configuration = configuration;
         _logger = logger;

@@ -11,10 +11,10 @@ public class ReservationWithCosmosDbService : ReservationServiceBase
 {
     public ReservationWithCosmosDbService(IConfiguration configuration,
         IAppLogger<ReservationWithCosmosDbService> logger,
-        IAzureOrderReservationCommunicatorService orderReservationCommunicator,
-        IOrderContentAssembler assembler,
-        ISecretBroker secretBroker
-    ) : base(configuration, logger, orderReservationCommunicator, assembler, secretBroker)
+        IAzureCommunicatorService communicator,
+        IOrderRequestContentAssembler assembler,
+        ISecretBrokerService secretBrokerService
+    ) : base(configuration, logger, communicator, assembler, secretBrokerService)
     {
 
     }
@@ -23,7 +23,7 @@ public class ReservationWithCosmosDbService : ReservationServiceBase
     {
         string requestTargetUri = await RetrieveRequestTargetUri("SecretNames:OrderReserveAzureFunc");
 
-        await _orderReservationCommunicator.OnSendOrderAsync(content, requestTargetUri);
+        await _communicator.SendOrderRequestAsync(content, requestTargetUri);
     }
 
     

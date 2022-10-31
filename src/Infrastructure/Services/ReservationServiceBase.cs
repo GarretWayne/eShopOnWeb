@@ -11,24 +11,24 @@ public abstract class ReservationServiceBase : IOrderReservationService
 {
     protected IConfiguration _configuration;
     protected IAppLogger<ReservationWithCosmosDbService> _logger;
-    protected IAzureOrderReservationCommunicatorService _orderReservationCommunicator;
-    protected IOrderContentAssembler _assembler;
-    protected ISecretBroker _secretBroker;
+    protected IAzureCommunicatorService _communicator;
+    protected IOrderRequestContentAssembler _assembler;
+    protected ISecretBrokerService _secretBrokerService;
 
     protected ReservationServiceBase
     (
         IConfiguration configuration,
         IAppLogger<ReservationWithCosmosDbService> logger,
-        IAzureOrderReservationCommunicatorService orderReservationCommunicator,
-        IOrderContentAssembler assembler,
-        ISecretBroker secretBroker
+        IAzureCommunicatorService communicator,
+        IOrderRequestContentAssembler assembler,
+        ISecretBrokerService secretBrokerService
         )
     {
         _configuration = configuration;
         _logger = logger;
-        _orderReservationCommunicator = orderReservationCommunicator;
+        _communicator = communicator;
         _assembler = assembler;
-        _secretBroker = secretBroker;
+        _secretBrokerService = secretBrokerService;
     }
 
     public async Task ReserveItems(Order order)
@@ -75,6 +75,6 @@ public abstract class ReservationServiceBase : IOrderReservationService
 
     protected async Task<string> RetrieveRequestTargetUri(string appSettingsSecretName)
     {
-        return await _secretBroker.GetSecretAsStringByNameAsync(_configuration[appSettingsSecretName]);
+        return await _secretBrokerService.GetSecretAsStringByNameAsync(_configuration[appSettingsSecretName]);
     }
 }

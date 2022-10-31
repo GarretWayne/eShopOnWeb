@@ -2,7 +2,7 @@
 
 namespace Microsoft.eShopWeb.ApplicationCore.Interfaces;
 
-public interface IOrderContentAssembler
+public interface IOrderRequestContentAssembler
 {
     public Task<string> AssembleRequestContentAsync(object o);
 }

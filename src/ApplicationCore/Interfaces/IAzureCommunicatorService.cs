@@ -4,5 +4,5 @@ namespace Microsoft.eShopWeb.ApplicationCore.Interfaces;
 
 public interface IAzureCommunicatorService
 {
-    public Task OnSendOrderAsync(string content, string uriString);
+    public Task SendOrderRequestAsync(string content, string uriString);
 }
