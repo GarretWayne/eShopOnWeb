@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.eShopWeb.ApplicationCore.Entities.OrderAggregate;
 using Microsoft.eShopWeb.ApplicationCore.Interfaces;
 using Microsoft.eShopWeb.Infrastructure.Dtos;
+using Microsoft.eShopWeb.Infrastructure.Services.Azure;
 using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.eShopWeb.Infrastructure.Services.Bases;
@@ -10,7 +11,7 @@ namespace Microsoft.eShopWeb.Infrastructure.Services.Bases;
 public abstract class ReservationServiceBase : IOrderReservationService
 {
     protected IConfiguration _configuration;
-    protected IAppLogger<ReservationWithCosmosDbService> _logger;
+    protected IAppLogger<ReservationWithAzureFunctionToCosmosDb> _logger;
     protected IAzureCommunicatorService _communicator;
     protected IOrderRequestContentAssembler _assembler;
     protected ISecretBrokerService _secretBrokerService;
@@ -18,7 +19,7 @@ public abstract class ReservationServiceBase : IOrderReservationService
     protected ReservationServiceBase
     (
         IConfiguration configuration,
-        IAppLogger<ReservationWithCosmosDbService> logger,
+        IAppLogger<ReservationWithAzureFunctionToCosmosDb> logger,
         IAzureCommunicatorService communicator,
         IOrderRequestContentAssembler assembler,
         ISecretBrokerService secretBrokerService

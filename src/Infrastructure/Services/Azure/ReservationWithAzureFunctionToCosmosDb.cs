@@ -6,12 +6,12 @@ using Microsoft.eShopWeb.Infrastructure.Services.Bases;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.eShopWeb.Infrastructure.Services;
+namespace Microsoft.eShopWeb.Infrastructure.Services.Azure;
 
-public class ReservationWithCosmosDbService : ReservationServiceBase
+public class ReservationWithAzureFunctionToCosmosDb : ReservationServiceBase
 {
-    public ReservationWithCosmosDbService(IConfiguration configuration,
-        IAppLogger<ReservationWithCosmosDbService> logger,
+    public ReservationWithAzureFunctionToCosmosDb(IConfiguration configuration,
+        IAppLogger<ReservationWithAzureFunctionToCosmosDb> logger,
         IAzureCommunicatorService communicator,
         IOrderRequestContentAssembler assembler,
         ISecretBrokerService secretBrokerService
@@ -22,10 +22,10 @@ public class ReservationWithCosmosDbService : ReservationServiceBase
 
     protected override async Task SendOrderAsync(string content)
     {
-        string requestTargetUri = await RetrieveRequestTargetUri("SecretNames:OrderReserveAzureFunc");
+        var requestTargetUri = await RetrieveRequestTargetUri("SecretNames:OrderReserveAzureFunc");
 
         await _communicator.SendOrderRequestAsync(content, requestTargetUri);
     }
 
-    
+
 }
