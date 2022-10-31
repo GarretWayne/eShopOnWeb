@@ -2,6 +2,7 @@
 using Microsoft.eShopWeb.ApplicationCore.Entities.OrderAggregate;
 using Microsoft.eShopWeb.ApplicationCore.Interfaces;
 using Microsoft.eShopWeb.Infrastructure.Dtos;
+using Microsoft.eShopWeb.Infrastructure.Services.Bases;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 

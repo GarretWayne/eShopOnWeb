@@ -5,7 +5,7 @@ using Microsoft.eShopWeb.ApplicationCore.Interfaces;
 using Microsoft.eShopWeb.Infrastructure.Dtos;
 using Microsoft.Extensions.Configuration;
 
-namespace Microsoft.eShopWeb.Infrastructure.Services;
+namespace Microsoft.eShopWeb.Infrastructure.Services.Bases;
 
 public abstract class ReservationServiceBase : IOrderReservationService
 {
