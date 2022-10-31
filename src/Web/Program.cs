@@ -22,8 +22,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 if (builder.Environment.IsProduction())
 {
-    var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
-    builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
+    try
+    {
+
+        var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
+        builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine("KeyVaultSetup Failed");
+        throw;
+    }
 }
 else
 {
