@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 
-namespace Microsoft.eShopWeb.Infrastructure.Services;
+namespace Microsoft.eShopWeb.ApplicationCore.Interfaces;
 
 public interface IOrderContentAssembler
 {
-    public Task<string> AssembleOrderContentAsync(object o);
+    public Task<string> AssembleRequestContentAsync(object o);
 }

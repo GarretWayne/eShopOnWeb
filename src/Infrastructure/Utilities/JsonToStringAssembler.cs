@@ -15,7 +15,7 @@ public class JsonToStringAssembler : IOrderContentAssembler
         _logger = logger;
     }
 
-    public Task<string> AssembleOrderContentAsync(object o)
+    public Task<string> AssembleRequestContentAsync(object o)
     {
         var orderContent = JObject.FromObject(o);
         return Task.FromResult(orderContent.ToString(formatting: Formatting.None));
