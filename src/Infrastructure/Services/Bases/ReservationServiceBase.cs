@@ -10,11 +10,13 @@ namespace Microsoft.eShopWeb.Infrastructure.Services.Bases;
 
 public abstract class ReservationServiceBase : IOrderReservationService
 {
-    protected IConfiguration _configuration;
-    protected IAppLogger<ReservationWithAzureFunctionToCosmosDb> _logger;
-    protected IAzureCommunicatorService _communicator;
-    protected IOrderRequestContentAssembler _assembler;
-    protected ISecretBrokerService _secretBrokerService;
+    protected readonly IConfiguration _configuration;
+    protected readonly IAppLogger<ReservationWithAzureFunctionToCosmosDb> _logger;
+    protected readonly IAzureCommunicatorService _communicator;
+    protected readonly IOrderRequestContentAssembler _assembler;
+    protected readonly ISecretBrokerService _secretBrokerService;
+
+    public string RequestTargetUri { get; set; }
 
     protected ReservationServiceBase
     (
@@ -30,6 +32,7 @@ public abstract class ReservationServiceBase : IOrderReservationService
         _communicator = communicator;
         _assembler = assembler;
         _secretBrokerService = secretBrokerService;
+        RequestTargetUri = String.Empty;
     }
 
     public async Task ReserveItems(Order order)
@@ -73,6 +76,7 @@ public abstract class ReservationServiceBase : IOrderReservationService
     }
 
     protected abstract Task SendOrderAsync(string content);
+    
 
     protected async Task<string> RetrieveRequestTargetUri(string appSettingsSecretName)
     {

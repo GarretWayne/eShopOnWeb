@@ -22,9 +22,10 @@ public class ReservationWithAzureFunctionToCosmosDb : ReservationServiceBase
 
     protected override async Task SendOrderAsync(string content)
     {
-        var requestTargetUri = await RetrieveRequestTargetUri("SecretNames:OrderReserveAzureFunc");
+        RequestTargetUri =
+            await RetrieveRequestTargetUri("SecretNames:ReservationWithAzureFunctionToCosmosDb");
 
-        await _communicator.SendOrderRequestAsync(content, requestTargetUri);
+        await _communicator.SendOrderRequestAsync(content, RequestTargetUri);
     }
 
 
