@@ -1,4 +1,4 @@
-using Microsoft.eShopWeb.Infrastructure.Services;
+using Microsoft.eShopWeb.Infrastructure.Dtos;
 using Newtonsoft.Json;
 using System;
 

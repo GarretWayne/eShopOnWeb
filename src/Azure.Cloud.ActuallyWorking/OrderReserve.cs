@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.eShopWeb.Infrastructure.Dtos;
 using Microsoft.eShopWeb.Infrastructure.Services;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;

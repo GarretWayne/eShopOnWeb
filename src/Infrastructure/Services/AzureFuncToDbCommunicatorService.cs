@@ -14,7 +14,7 @@ public class AzureFuncToDbCommunicatorService : IAzureOrderReservationCommunicat
         _logger = logger;
     }
 
-    public async Task OnPostOrderAsync(string content, string uriString)
+    public async Task OnSendOrderAsync(string content, string uriString)
     {
         try
         {
