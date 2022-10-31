@@ -25,7 +25,11 @@ if (builder.Environment.IsProduction())
     var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
     builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
 }
-
+else
+{
+    var keyVaultEndpoint = new Uri(builder.Configuration.GetConnectionString("keyVault"));
+    builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
+}
 
 builder.Logging.AddConsole();
 

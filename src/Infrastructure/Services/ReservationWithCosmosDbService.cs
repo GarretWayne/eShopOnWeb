@@ -4,6 +4,7 @@ using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 using Microsoft.eShopWeb.ApplicationCore.Entities.OrderAggregate;
 using Microsoft.eShopWeb.ApplicationCore.Interfaces;
+using Microsoft.eShopWeb.Infrastructure.Dtos;
 using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.eShopWeb.Infrastructure.Services;
@@ -54,6 +55,6 @@ public class ReservationWithCosmosDbService : IOrderReservationService
 
 
         string requestUri = secretUriResponse.Value.Value;
-        await _orderReservationCommunicator.OnPostOrderAsync(content, requestUri);
+        await _orderReservationCommunicator.OnSendOrderAsync(content, requestUri);
     }
 }

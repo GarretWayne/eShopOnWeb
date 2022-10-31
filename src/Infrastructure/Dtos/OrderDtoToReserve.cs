@@ -3,7 +3,7 @@ using System.Linq;
 using BlazorAdmin.Pages.CatalogItemPage;
 using Microsoft.eShopWeb.ApplicationCore.Entities.OrderAggregate;
 
-namespace Microsoft.eShopWeb.Infrastructure.Services;
+namespace Microsoft.eShopWeb.Infrastructure.Dtos;
 
 public class OrderDtoToReserve
 {
@@ -14,7 +14,7 @@ public class OrderDtoToReserve
 
     public OrderDtoToReserve()
     {
-        
+
     }
 
     public OrderDtoToReserve(Order order)
