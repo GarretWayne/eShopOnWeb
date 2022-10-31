@@ -5,16 +5,16 @@ using Microsoft.eShopWeb.ApplicationCore.Interfaces;
 
 namespace Microsoft.eShopWeb.Infrastructure.Services;
 
-public class AzureFuncToDbCommunicatorService : IAzureOrderReservationCommunicatorService
+public class AzureCommunicatorService : IAzureCommunicatorService
 {
-    private readonly IAppLogger<AzureFuncToDbCommunicatorService> _logger;
+    private readonly IAppLogger<AzureCommunicatorService> _logger;
 
-    public AzureFuncToDbCommunicatorService(IAppLogger<AzureFuncToDbCommunicatorService> logger)
+    public AzureCommunicatorService(IAppLogger<AzureCommunicatorService> logger)
     {
         _logger = logger;
     }
 
-    public async Task OnSendOrderAsync(string content, string uriString)
+    public async Task SendOrderRequestAsync(string content, string uriString)
     {
         try
         {
