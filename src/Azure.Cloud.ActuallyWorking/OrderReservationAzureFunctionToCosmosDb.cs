@@ -10,15 +10,14 @@ using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.eShopWeb.Infrastructure.Dtos;
-using Microsoft.eShopWeb.Infrastructure.Services;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
 namespace Azure.Cloud.ActuallyWorking
 {
-    public static class OrderReserve
+    public static class OrderReservationAzureFunctionToCosmosDb
     {
-        [FunctionName("OrderReserve")]
+        [FunctionName("OrderReservationAzureFunctionToCosmosDb")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest request,
             ILogger log)
