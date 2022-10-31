@@ -30,7 +30,7 @@ public static class ConfigureCoreServices
 
         //Services -> OrderReservation Helpers
         services.AddTransient<IOrderRequestContentAssembler, JsonToStringAssembler>();
-        services.AddTransient<IAzureCommunicatorService, AzureCommunicatorService>();
+        services.AddTransient<IAzureCommunicatorService, HttpRequestToAzureFunctionCommunicatorService>();
 
         //Services
         services.AddTransient<IEmailSender, EmailSender>();

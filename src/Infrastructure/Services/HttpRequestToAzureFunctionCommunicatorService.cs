@@ -2,19 +2,17 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.eShopWeb.ApplicationCore.Interfaces;
+using Microsoft.eShopWeb.Infrastructure.Services.Bases;
 
 namespace Microsoft.eShopWeb.Infrastructure.Services;
 
-public class AzureCommunicatorService : IAzureCommunicatorService
+public class HttpRequestToAzureFunctionCommunicatorService : AzureCommunicatorServiceBase
 {
-    private readonly IAppLogger<AzureCommunicatorService> _logger;
-
-    public AzureCommunicatorService(IAppLogger<AzureCommunicatorService> logger)
+    public HttpRequestToAzureFunctionCommunicatorService(IAppLogger<HttpRequestToAzureFunctionCommunicatorService> logger) : base(logger)
     {
-        _logger = logger;
     }
 
-    public async Task SendOrderRequestAsync(string content, string uriString)
+    public override async Task SendOrderRequestAsync(string content, string uriString)
     {
         try
         {
